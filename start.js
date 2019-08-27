@@ -1,0 +1,14 @@
+// import environmental variables from our variables.env file
+const config =
+	process.env === "production" ? "variables-prod.env" : "variables-dev.env";
+
+require("dotenv").config({ path: config });
+
+// Start our app!
+const { app } = require("./app");
+
+app.set("port", process.env.PORT);
+
+const server = app.listen(app.get("port"), () => {
+	console.log(`Express running on PORT ${server.address().port}`);
+});

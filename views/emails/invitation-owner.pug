@@ -1,0 +1,26 @@
+extends email-layout
+
+block content
+  table(border='0', cellpadding='0', cellspacing='0' style="width:100%;")
+    tr
+      td(align="center")
+        h2(style="font-family: sans-serif; font-size: 20px; color: #c99a2e;") Owner Registration
+  table(border='0', cellpadding='0', cellspacing='0' style="width:100%;")
+    tr
+      td(style="font-family: sans-serif; color: #d9e2ec;")
+        p Hi #{user.firstName} #{user.lastName},
+        p You have been invited by admin to join Zuni Forty Fourth residences with an owner's account for #{property.streetAddress}.
+        p Please visit our
+          |
+          |
+          a(href=`${registrationUrl}` target="_blank" style="font-family: sans-serif; color: #c99a2e;") sign up page
+          |
+          | and complete your registration.
+        p Temp Password:
+          |
+          |
+          span(style="font-family: sans-serif; color: #c99a2e;") #{tempPassword}
+        p Verification Code:
+          |
+          |
+          span(style="font-family: sans-serif; color: #c99a2e;") #{user.verifyCode}
