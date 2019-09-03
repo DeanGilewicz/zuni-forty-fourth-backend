@@ -34,6 +34,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // populates req.cookies with any cookies that came along with the request
 app.use(cookieParser());
 
+// allow access to assets (for email)
+app.use(express.static("public"));
+
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in
 // THIS IS FOR THE NON ACCESSIBLE COOKIE - JWT signature
