@@ -1,4 +1,4 @@
-const { Op } = require("Sequelize");
+const { Op } = require("sequelize");
 const { Property, User, Interest } = require("../sequelize"); // import Sequelize modals
 const { check } = require("express-validator/check");
 const { sanitizeBody } = require("express-validator/filter");
