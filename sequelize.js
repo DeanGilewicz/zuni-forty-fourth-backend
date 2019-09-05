@@ -26,6 +26,7 @@ const sequelize = new Sequelize(
 		host: process.env.DB_HOST,
 		dialect: "mysql",
 		storage: "./session.mysql",
+		operatorsAliases: false,
 		dialectOptions: dialectOptions,
 		timezone: "-06:00" // for writing to database
 	}
