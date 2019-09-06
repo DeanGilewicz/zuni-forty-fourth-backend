@@ -14,10 +14,7 @@ const { cloudinaryConfig } = require("./cloudinaryConfig.js");
 const app = express();
 
 app.use(function(req, res, next) {
-	res.header(
-		"Access-Control-Allow-Origin",
-		`${process.env.HOST}:${process.env.FE_PORT}`
-	);
+	res.header("Access-Control-Allow-Origin", `${process.env.FE_HOST}`);
 	res.header("Access-Control-Allow-Credentials", true);
 	res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
 	res.header(
@@ -54,7 +51,7 @@ const sess = {
 	cookie: {
 		secure: false,
 		httpOnly: true
-		// domain: 'example.com',
+		// domain: 'https://zunifortyfourth.com',
 		// expires: expiryDate
 	}
 };

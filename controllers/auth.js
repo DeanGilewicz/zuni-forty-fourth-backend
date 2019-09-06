@@ -225,7 +225,7 @@ exports.registerOwner = async (req, res, next) => {
 		filename: "invitation-owner",
 		user: createdOwner.dataValues,
 		property: property.dataValues,
-		registrationUrl: `${process.env.HOST}:${process.env.FE_PORT}/owner-registration-confirmation`,
+		registrationUrl: `${process.env.FE_HOST}/owner-registration-confirmation`,
 		tempPassword: generatedPassword,
 		subject: `${createdOwner.dataValues.firstName}, you have been invited to join Zuni Forty Fourth`
 	});
@@ -344,7 +344,7 @@ exports.registerUser = async (req, res, next) => {
 		user: createdUser.dataValues,
 		owner: owner.dataValues,
 		property: property.dataValues,
-		registrationUrl: `${process.env.HOST}:${process.env.FE_PORT}/user-registration-confirmation`,
+		registrationUrl: `${process.env.FE_HOST}/user-registration-confirmation`,
 		tempPassword: generatedPassword,
 		subject: `${createdUser.dataValues.firstName}, you have been invited to join Zuni Forty Fourth`
 	});
@@ -577,7 +577,7 @@ exports.forgotPasswordSendEmail = async (req, res, next) => {
 	await mail.send({
 		filename: "password-reset",
 		user: user.dataValues,
-		resetUrl: `${process.env.HOST}:${process.env.FE_PORT}/forgot-password-reset`,
+		resetUrl: `${process.env.FE_HOST}/forgot-password-reset`,
 		subject: "Zuni Forty Fourth password reset request"
 	});
 	return res.json({
