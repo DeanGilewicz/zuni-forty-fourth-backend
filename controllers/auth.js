@@ -222,7 +222,6 @@ exports.registerOwner = async (req, res, next) => {
 	// req.user = createdOwner; // uncomment to make user available on the req
 	// send an email to invite owner
 	await mail.send({
-		logoUrl: process.env.HOST,
 		filename: "invitation-owner",
 		user: createdOwner.dataValues,
 		property: property.dataValues,
@@ -341,7 +340,6 @@ exports.registerUser = async (req, res, next) => {
 	// req.user = createdOwner; // uncomment to make user available on the req
 	// send email to invite user
 	await mail.send({
-		logoUrl: process.env.HOST,
 		filename: "invitation-user",
 		user: createdUser.dataValues,
 		owner: owner.dataValues,
@@ -577,7 +575,6 @@ exports.forgotPasswordSendEmail = async (req, res, next) => {
 	await user.save();
 	// email user
 	await mail.send({
-		logoUrl: process.env.HOST,
 		filename: "password-reset",
 		user: user.dataValues,
 		resetUrl: `${process.env.FE_HOST}/forgot-password-reset`,
