@@ -13,9 +13,6 @@ const { cloudinaryConfig } = require("./cloudinaryConfig.js");
 // create Express app
 const app = express();
 
-// pass in host so can use in email-layout
-app.locals.HOST = process.env.HOST;
-
 app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", `${process.env.FE_HOST}`);
 	res.header("Access-Control-Allow-Credentials", true);
