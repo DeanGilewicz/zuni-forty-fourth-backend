@@ -198,11 +198,15 @@ exports.updateCurrentUser = async (req, res) => {
 						{ where: { id: int.id, userId: user.id } }
 					);
 				} catch (err) {
+					let errorMessage = "Failed to update interest";
+					if( typeof err.errors !== "undefined" && typeof err.errors[0] !== "undefined" && typeof err.errors[0].message !== "undefined" && err.errors[0].message !== '') {
+						errorMessage = err.errors[0].message;
+					};
 					await user.update(data);
 					return res.status(404).json({
 						type: "error",
 						action: "update user",
-						result: "failed to update interest"
+						result: errorMessage
 					});
 				}
 			}
