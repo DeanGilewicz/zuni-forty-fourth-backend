@@ -184,7 +184,7 @@ exports.updateCurrentUser = async (req, res) => {
 		additionalInterest = req.body.additionalInterest;
 		delete req.body.additionalInterest;
 	}
-	const data = req.body; // user
+	const data = req.body; // user data
 	if (additionalInterest) {
 		additionalInterest.userId = user.id;
 		await Interest.create(additionalInterest);
@@ -206,7 +206,14 @@ exports.updateCurrentUser = async (req, res) => {
 					});
 				}
 			}
-			await user.update(data);
+			// save user
+			let userWithInterests = await user.update(data);
+			// add additional interest to returned user object
+			if (additionalInterest) {
+				userWithInterests.dataValues.interests.push(additionalInterest);
+			} else {
+				userWithInterests.dataValues.interests = interests;
+			}
 			return res.json({
 				type: "success",
 				action: "update user",
@@ -214,7 +221,6 @@ exports.updateCurrentUser = async (req, res) => {
 			});
 		})();
 	} else {
-		await user.update(data);
 		return res.json({
 			type: "success",
 			action: "update user",
