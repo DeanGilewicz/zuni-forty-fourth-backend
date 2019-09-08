@@ -134,7 +134,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			},
 			{
 				verifyCode: "",
@@ -146,7 +146,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "1020121021",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			},
 			{
 				verifyCode: "",
@@ -158,7 +158,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "9992223333",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			},
 			{
 				verifyCode: "",
@@ -170,7 +170,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "2244668899",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			},
 			{
 				verifyCode: "",
@@ -182,7 +182,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "8787878787",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			},
 			{
 				verifyCode: "",
@@ -194,7 +194,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "7878787878",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			},
 			{
 				verifyCode: "",
@@ -206,7 +206,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "6767676767",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			},
 			{
 				verifyCode: "",
@@ -218,7 +218,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "3434343434",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			},
 			{
 				verifyCode: "",
@@ -230,7 +230,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "5656565656",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			},
 			{
 				verifyCode: "",
@@ -242,7 +242,7 @@ if (process.env.NODE_ENV !== "production") {
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "4545454545",
 				image:
-					"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png"
+					"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png"
 			}
 		]);
 		const userStatus = UserStatus.bulkCreate([

@@ -300,7 +300,7 @@ exports.resetCurrentUserProfileImage = async (req, res) => {
 		});
 	// ref placeholder image
 	const placeholderImage =
-		"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png";
+		"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png";
 	// delete current profile image for user from Cloudinary - except for profile-placeholder image
 	if (user.image && user.image.indexOf("profile-placeholder") === -1) {
 		const strArray = user.image.split("/");

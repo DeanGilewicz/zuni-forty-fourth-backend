@@ -216,7 +216,7 @@ exports.registerOwner = async (req, res, next) => {
 	owner.verifyCodeExpiration = Date.now() + 3600000;
 	// set placeholder image
 	owner.image =
-		"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png";
+		"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png";
 	// create owner
 	const createdOwner = await User.create(owner);
 	// req.user = createdOwner; // uncomment to make user available on the req
@@ -334,7 +334,7 @@ exports.registerUser = async (req, res, next) => {
 	user.verifyCodeExpiration = Date.now() + 3600000;
 	// set placeholder image
 	user.image =
-		"https://res.cloudinary.com/cloudassets/image/upload/v1565501442/zuni44/profile-placeholder.png";
+		"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png";
 	// create user
 	const createdUser = await User.create(user);
 	// req.user = createdOwner; // uncomment to make user available on the req
