@@ -77,7 +77,10 @@ exports.getAllPropertiesHasOwner = async (req, res) => {
 
 exports.getAllProperties = async (req, res) => {
 	const properties = await Property.findAll({
-		include: [{ model: User, as: "owner" }, { model: User, as: "users" }]
+		include: [{ model: User, as: "owner" }, { model: User, as: "users" }],
+		order: [
+			['id', 'ASC']
+		]
 	});
 	if (!properties)
 		return res.status(404).json({
@@ -96,6 +99,9 @@ exports.getAllPropertiesWithUsers = async (req, res) => {
 				as: "users",
 				include: [Interest]
 			}
+		],
+		order: [
+			['id', 'ASC']
 		]
 	});
 	if (!properties)
