@@ -180,7 +180,7 @@ exports.registerOwner = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "owner registration",
-			result: "owner already exists"
+			result: "Owner already exists"
 		});
 	}
 	const { propertyId } = req.body;
@@ -193,14 +193,14 @@ exports.registerOwner = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no property exists",
-			result: "no property found"
+			result: "No property found"
 		});
 	// check if property already has an owner since can't add another one
 	if (property.ownerId)
 		return res.status(404).json({
 			type: "error",
 			action: "owner exists",
-			result: "owner already exists!"
+			result: "Owner already exists!"
 		});
 	// create predefined password
 	const generatedPassword = generatePassword();
@@ -249,19 +249,19 @@ exports.confirmationOwner = async (req, res, next) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// check password match
 	const isPasswordMatch = await comparePassword(tempPassword, user.password);
 	if (!isPasswordMatch)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// check verify code has not expired
 	if (parseInt(user.verifyCodeExpiration, 10) < Date.now())
 		return res.status(404).json({
 			type: "error",
 			action: "verification code expired",
-			result: "verification code expired"
+			result: "Verification code expired"
 		});
 	user.verifyCode = null;
 	user.verifyCodeExpiration = null;
@@ -295,7 +295,7 @@ exports.registerUser = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "user registration",
-			result: "user already exists"
+			result: "User already exists"
 		});
 	}
 	const { propertyId } = req.body;
@@ -309,14 +309,14 @@ exports.registerUser = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no property exists",
-			result: "no property found"
+			result: "No property found"
 		});
 	// if no owner found then exit since need an owner before adding additional users
 	if (!property.ownerId)
 		return res.status(404).json({
 			type: "error",
 			action: "no owner",
-			result: "owner does not exist!"
+			result: "Owner does not exist!"
 		});
 	// get owner info
 	const owner = await User.findByPk(property.ownerId);
@@ -368,19 +368,19 @@ exports.confirmationUser = async (req, res, next) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// check password match
 	const isPasswordMatch = await comparePassword(tempPassword, user.password);
 	if (!isPasswordMatch)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// check verify code has not expired
 	if (parseInt(user.verifyCodeExpiration, 10) < Date.now())
 		return res.status(404).json({
 			type: "error",
 			action: "verification code expired",
-			result: "verification code expired"
+			result: "Verification code expired"
 		});
 	user.verifyCode = null;
 	user.verifyCodeExpiration = null;
@@ -409,19 +409,19 @@ exports.login = async (req, res, next) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// check password match
 	const isPasswordMatch = await comparePassword(password, user.password);
 	if (!isPasswordMatch)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// check user status is approved
 	if (user && user.userStatusId != 2)
 		return res.status(401).json({
 			type: "error",
 			action: "unapproved",
-			result: "user does not have access"
+			result: "User does not have access"
 		});
 	// create token
 	const token = jwt.sign(
@@ -449,7 +449,7 @@ exports.login = async (req, res, next) => {
 	// send response - user is authorized
 	return res
 		.status(200)
-		.json({ type: "success", action: "login", result: "user authorized" });
+		.json({ type: "success", action: "login", result: "User authorized" });
 };
 
 // make sure user is logged in before doing anything
@@ -495,7 +495,7 @@ exports.isAdmin = (req, res, next) => {
 		return res.status(403).json({
 			type: "error",
 			action: "permission error",
-			result: "user does not have permission"
+			result: "User does not have permission"
 		});
 	}
 	next();
@@ -507,7 +507,7 @@ exports.isAdminOrOwner = (req, res, next) => {
 		return res.status(403).json({
 			type: "error",
 			action: "permission error",
-			result: "user does not have permission"
+			result: "User does not have permission"
 		});
 	}
 	next();
@@ -519,7 +519,7 @@ exports.isOwner = (req, res, next) => {
 		return res.status(403).json({
 			type: "error",
 			action: "permission error",
-			result: "user does not have permission"
+			result: "User does not have permission"
 		});
 	}
 	next();
@@ -532,7 +532,7 @@ exports.isSameUserRequested = (req, res, next) => {
 		return res.status(403).json({
 			type: "error",
 			action: "is same user requested",
-			result: "user does not have permission"
+			result: "User does not have permission"
 		});
 	}
 	next();
@@ -546,7 +546,7 @@ exports.logout = (req, res, next) => {
 	return res.clearCookie("token").json({
 		type: "success",
 		action: "logout",
-		result: "you are logged out"
+		result: "You are logged out"
 	});
 };
 
@@ -566,7 +566,7 @@ exports.forgotPasswordSendEmail = async (req, res, next) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// update verify code, verify expiration and user status to 3
 	user.verifyCode = crypto.randomBytes(20).toString("hex");
 	user.verifyCodeExpiration = Date.now() + 3600000; // 1 hour from now
@@ -583,7 +583,7 @@ exports.forgotPasswordSendEmail = async (req, res, next) => {
 	return res.json({
 		type: "success",
 		action: "forgot password",
-		result: "a password reset email has been sent"
+		result: "A password reset email has been sent"
 	});
 };
 
@@ -594,7 +594,7 @@ exports.forgotPasswordReset = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "forgot password reset",
-			result: "passwords do not match"
+			result: "Passwords do not match"
 		});
 	// find user by email
 	const user = await User.findOne({
@@ -607,13 +607,13 @@ exports.forgotPasswordReset = async (req, res, next) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// check verify code has not expired
 	if (parseInt(user.verifyCodeExpiration, 10) < Date.now())
 		return res.status(404).json({
 			type: "error",
 			action: "verification code expired",
-			result: "verification code expired"
+			result: "Verification code expired"
 		});
 	// hash new password
 	const passwordHash = await hashPassword(newPassword);
@@ -626,7 +626,7 @@ exports.forgotPasswordReset = async (req, res, next) => {
 	return res.json({
 		type: "success",
 		action: "forgot password reset",
-		result: "password reset"
+		result: "Password reset"
 	});
 };
 
@@ -640,7 +640,7 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "change password",
-			result: "please complete all fields"
+			result: "Please complete all fields"
 		});
 	}
 	// check new password matches confirm password
@@ -648,7 +648,7 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "change password",
-			result: "passwords do not match"
+			result: "Passwords do not match"
 		});
 	}
 	// query db for user
@@ -661,7 +661,7 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "change password",
-			result: "incorrect password"
+			result: "Incorrect password"
 		});
 	}
 	// check new password isn't the same as current password
@@ -670,7 +670,7 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "change password",
-			result: "please provide a new password"
+			result: "Please provide a new password"
 		});
 	}
 	// hash new password
@@ -680,6 +680,6 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 	return res.json({
 		type: "success",
 		action: "change password",
-		result: "password updated"
+		result: "Password updated"
 	});
 };

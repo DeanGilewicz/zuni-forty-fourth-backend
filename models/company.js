@@ -21,19 +21,39 @@ module.exports = (sequelize, type) => {
 		email: {
 			type: type.STRING,
 			validate: {
-				isEmail: true
+				validateEmail: function(value) {
+					if( typeof value !== 'undefined' && value !== '' & !sequelize.Validator.isEmail(value) ) {
+						throw new Error(
+							"Email address is not valid"
+						);
+					}
+				}
 			}
 		},
 		contactNumber: {
 			type: type.STRING,
 			validate: {
-				isNumeric: true
+				validateContactNumber: function(value) {
+					// const reContactNumber = new RegExp("^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$", 'g');
+					if( typeof value !== 'undefined' && value !== '' & !sequelize.Validator.isNumeric(value) ) {
+						throw new Error(
+							"Contact number is not valid"
+						);
+					}
+				}
 			}
 		},
 		website: {
 			type: type.STRING,
 			validate: {
-				isUrl: true
+				validateWebsite: function(value) {
+					// const reUrl = new RegExp("https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)", 'g');
+					if( typeof value !== 'undefined' && value !== '' & !sequelize.Validator.isUrl(value) ) {
+						throw new Error(
+							"Website url is not valid"
+						);
+					}
+				}
 			}
 		},
 		address: {

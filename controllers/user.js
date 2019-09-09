@@ -11,7 +11,7 @@ exports.getUsers = async (req, res) => {
 	if (!users)
 		return res
 			.status(404)
-			.json({ type: "error", action: "get users", result: "no users found" });
+			.json({ type: "error", action: "get users", result: "No users found" });
 	// remove passwords
 	if (users.length > 0) {
 		users.forEach(user => delete user.dataValues.password);
@@ -28,7 +28,7 @@ exports.getCurrentUser = async (req, res) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// remove password
 	delete user.dataValues.password;
 	return res.json({
@@ -44,7 +44,7 @@ exports.getUser = async (req, res) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// remove password
 	delete user.dataValues.password;
 	return res.json({
@@ -59,7 +59,7 @@ exports.updateUser = async (req, res) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	const updatedUser = await user.update(req.body.user);
 	return res.json({
 		type: "success",
@@ -173,7 +173,7 @@ exports.updateCurrentUser = async (req, res) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	let interests;
 	if (typeof req.body.interests !== "undefined") {
 		interests = req.body.interests;
@@ -242,7 +242,7 @@ exports.updateCurrentUserProfileImage = async (req, res) => {
 			return res.status(404).json({
 				type: "error",
 				action: "converting file to string",
-				result: "unable to convert file"
+				result: "Unable to convert file"
 			});
 		const uploadedFile = await uploader.upload(file, null, {
 			folder: "zuni44",
@@ -252,7 +252,7 @@ exports.updateCurrentUserProfileImage = async (req, res) => {
 			return res.status(404).json({
 				type: "error",
 				action: "uploading file",
-				result: "failed to upload image"
+				result: "Failed to upload image"
 			});
 		// cloudinary image upload ref
 		const image = uploadedFile.secure_url;
@@ -265,7 +265,7 @@ exports.updateCurrentUserProfileImage = async (req, res) => {
 			return res.status(404).json({
 				type: "error",
 				action: "no user",
-				result: "image unable to saved for user"
+				result: "Image unable to be saved for user"
 			});
 		// delete current profile image for user from Cloudinary - except for profile-placeholder image
 		if (user.image && user.image.indexOf("profile-placeholder") === -1) {
@@ -296,7 +296,7 @@ exports.resetCurrentUserProfileImage = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no user",
-			result: "image unable to saved for user"
+			result: "Image unable to be saved for user"
 		});
 	// ref placeholder image
 	const placeholderImage =
@@ -324,7 +324,7 @@ exports.deleteCurrentUser = async (req, res) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	const deletedUser = await user.destroy();
 	delete deletedUser.dataValues.password;
 	return res.json({
@@ -339,7 +339,7 @@ exports.deleteUser = async (req, res) => {
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// delete user interests if any exist
 	await Interest.destroy({
 		where: { userId: user.id }
@@ -359,7 +359,7 @@ exports.updateOwner = async (req, res) => {
 	if (!owner)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no owner", result: "no owner found" });
+			.json({ type: "error", action: "no owner", result: "No owner found" });
 	const data = req.body.owner;
 	const updatedOwner = await owner.update(data);
 	return res.json({
@@ -375,7 +375,7 @@ exports.deleteOwner = async (req, res) => {
 	if (!owner)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no owner", result: "no owner found" });
+			.json({ type: "error", action: "no owner", result: "No owner found" });
 	// get property for this owner
 	const property = await Property.findOne({
 		where: { ownerId: owner.id },
@@ -385,14 +385,14 @@ exports.deleteOwner = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "property owner does not exist",
-			result: "no property found"
+			result: "No property found"
 		});
 	// check property doesn't have any users - using 1 since owner is included in users array
 	if (property.users.length > 1) {
 		return res.status(404).json({
 			type: "error",
 			action: "delete owner",
-			result: "cannot delete owner as users exist"
+			result: "Cannot delete owner as users exist"
 		});
 	}
 	// delete owner interests if any exist

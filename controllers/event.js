@@ -119,7 +119,7 @@ exports.getEvents = async (req, res) => {
 	if (!events)
 		return res
 			.status(404)
-			.json({ type: "error", action: "get events", result: "no events found" });
+			.json({ type: "error", action: "get events", result: "No events found" });
 	return res.json({ type: "success", action: "get events", result: events });
 };
 
@@ -138,7 +138,7 @@ exports.updateEvent = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no event",
-			result: "no event found"
+			result: "No event found"
 		});
 	delete req.body.event.id; // do not allow id to be updated
 	const updatedEvent = await event.update({ ...req.body.event });
@@ -155,7 +155,7 @@ exports.deleteEvent = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no event",
-			result: "no event found"
+			result: "No event found"
 		});
 	const deletedEvent = await event.destroy();
 	return res.json({
