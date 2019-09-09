@@ -15,18 +15,28 @@ exports.validateCompanyArray = [
 		.not()
 		.isEmpty(),
 	sanitizeBody("name"),
-	check("email", "Email is not valid").isEmail(),
-	sanitizeBody("email").normalizeEmail({
-		remove_dots: false,
-		remove_extension: false,
-		gmail_remove_subaddress: false
-	}),
+	check("email", "Email is not HERE valid")
+		.optional({ checkFalsy: true })
+		.custom((value, { req }) => {
+			if( value === '@' ) {
+				value = '';
+				return true;
+			} else {
+				const expression = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g;
+				const reEmail = new RegExp(expression, 'g');
+				if (!reEmail.test(value) ) {
+					return false;
+				}
+				return value;
+			}
+		}),
 	check("contactNumber", "You must supply a company phone number")
-		.optional()
+		.optional({ checkFalsy: true })
 		.trim()
 		.isNumeric()
 		.isLength({ min: 10, max: 10 }),
 	check("website", "You must supply a company website")
+		.optional({ checkFalsy: true })
 		.trim()
 		.not()
 		.isEmpty(),
@@ -79,18 +89,28 @@ exports.validateCompanyUpdateArray = [
 		.not()
 		.isEmpty(),
 	sanitizeBody("company.name"),
-	check("company.email", "Email is not valid").isEmail(),
-	sanitizeBody("company.email").normalizeEmail({
-		remove_dots: false,
-		remove_extension: false,
-		gmail_remove_subaddress: false
-	}),
+	check("company.email", "Email is not valid")
+		.optional({ checkFalsy: true })
+		.custom((value, { req }) => {
+			if( value === '@' ) {
+				value = '';
+				return true;
+			} else {
+				const expression = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g;
+				const reEmail = new RegExp(expression, 'g');
+				if (!reEmail.test(value) ) {
+					return false;
+				}
+				return value;
+			}
+		}),
 	check("company.contactNumber", "You must supply a company phone number")
-		.optional()
+		.optional({ checkFalsy: true })
 		.trim()
 		.isNumeric()
 		.isLength({ min: 10, max: 10 }),
 	check("company.website", "You must supply a company website")
+		.optional({ checkFalsy: true })
 		.trim()
 		.not()
 		.isEmpty(),
@@ -127,7 +147,7 @@ exports.getCompaniesAll = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "get companies",
-			result: "no companies found"
+			result: "No companies found"
 		});
 	return res.json({
 		type: "success",
@@ -147,7 +167,7 @@ exports.getCompaniesByType = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "get companies by type",
-			result: "no companies found"
+			result: "No companies found"
 		});
 	return res.json({
 		type: "success",
@@ -171,7 +191,7 @@ exports.updateCompany = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no company",
-			result: "no company found"
+			result: "No company found"
 		});
 	delete req.body.company.id; // do not allow id to be updated
 	const updatedCompany = await company.update({ ...req.body.company });
@@ -188,7 +208,7 @@ exports.deleteCompany = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no company",
-			result: "no company found"
+			result: "No company found"
 		});
 	const deletedCompany = await company.destroy();
 	return res.json({

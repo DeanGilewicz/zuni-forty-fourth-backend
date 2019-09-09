@@ -38,7 +38,7 @@ exports.getProperties = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "no properties found"
+			result: "No properties found"
 		});
 	return res.json(properties);
 };
@@ -53,7 +53,7 @@ exports.getAllPropertiesNoOwner = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "no properties found"
+			result: "No properties found"
 		});
 	return res.json(properties);
 };
@@ -70,7 +70,7 @@ exports.getAllPropertiesHasOwner = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "no properties found"
+			result: "No properties found"
 		});
 	return res.json(properties);
 };
@@ -83,7 +83,7 @@ exports.getAllProperties = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "no properties found"
+			result: "No properties found"
 		});
 	return res.json(properties);
 };
@@ -102,7 +102,7 @@ exports.getAllPropertiesWithUsers = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "no properties found"
+			result: "No properties found"
 		});
 	return res.json(properties);
 };
@@ -117,7 +117,7 @@ exports.getPropertyUsers = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "no properties found"
+			result: "No properties found"
 		});
 	return res.json(properties);
 };
@@ -133,7 +133,7 @@ exports.getPropertyByOwner = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no property",
-			result: "no property found"
+			result: "No property found"
 		});
 	return res.json(property);
 };
@@ -146,20 +146,20 @@ exports.changeOwner = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no property",
-			result: "no property found"
+			result: "No property found"
 		});
 	// find owner
 	const owner = await User.findByPk(property.dataValues.ownerId);
 	if (!owner)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no owner", result: "no owner found" });
+			.json({ type: "error", action: "no owner", result: "No owner found" });
 	// find user
 	const user = await User.findByPk(userId);
 	if (!user)
 		return res
 			.status(404)
-			.json({ type: "error", action: "no user", result: "no user found" });
+			.json({ type: "error", action: "no user", result: "No user found" });
 	// update property, owner and user
 	const updateAll = async () => {
 		try {
@@ -183,7 +183,7 @@ exports.changeOwner = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no change of owner",
-			result: "property owner could not be updated"
+			result: "Property owner could not be updated"
 		});
 	}
 	// find property
@@ -196,7 +196,7 @@ exports.changeOwner = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "update property",
-			result: "updated property can not be retrieved"
+			result: "Updated property can not be retrieved"
 		});
 	}
 	// return updated property
