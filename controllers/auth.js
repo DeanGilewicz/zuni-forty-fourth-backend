@@ -213,7 +213,7 @@ exports.registerOwner = async (req, res, next) => {
 	// set verify code
 	owner.verifyCode = crypto.randomBytes(20).toString("hex");
 	// set verify code expiration - 1 hour from now
-	owner.verifyCodeExpiration = Date.now() + 3600000;
+	owner.verifyCodeExpiration = Date.now() + 60*60*24*1000; // 24 hours from now
 	// set placeholder image
 	owner.image =
 		"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png";
@@ -331,7 +331,7 @@ exports.registerUser = async (req, res, next) => {
 	// set verify code
 	user.verifyCode = crypto.randomBytes(20).toString("hex");
 	// set verify code expiration - 1 hour from now
-	user.verifyCodeExpiration = Date.now() + 3600000;
+	user.verifyCodeExpiration = Date.now() + 60*60*24*1000; // 24 hours from now
 	// set placeholder image
 	user.image =
 		"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png";
