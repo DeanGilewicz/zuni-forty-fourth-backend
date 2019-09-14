@@ -142,7 +142,11 @@ exports.validateCompanyUpdateArray = [
 ];
 
 exports.getCompaniesAll = async (req, res) => {
-	const companies = await Company.findAll();
+	const companies = await Company.findAll({
+		order: [
+			['name', 'ASC']
+		]
+	});
 	if (!companies)
 		return res.status(404).json({
 			type: "error",

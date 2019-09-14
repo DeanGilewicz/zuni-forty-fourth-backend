@@ -60,7 +60,7 @@ module.exports = (sequelize, type) => {
 			type: type.STRING,
 			validate: {
 				notEmpty: true,
-				is: ["^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", "i"]
+				is: ["^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _#.]*$", "i"]
 			}
 		},
 		city: {
