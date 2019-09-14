@@ -33,7 +33,7 @@ module.exports = (sequelize, type) => {
 		address: {
 			type: type.STRING,
 			validate: {
-				is: ["^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", "i"]
+				is: ["^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _#.]*$", "i"]
 			}
 		},
 		city: {
