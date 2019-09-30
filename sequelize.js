@@ -153,7 +153,7 @@ if (process.env.NODE_ENV !== "production") {
 				verifyCodeExpiration: 2222222222,
 				firstName: "julie",
 				lastName: "g",
-				emailAddress: "julie@test.com",
+				emailAddress: "julie.test@test.com",
 				password:
 					"$2b$10$KooGtWwb6s/Dqe.gBjpyN.9Bt5lgNdTc88TH2d0.cEH2NGCQjc.m2",
 				phoneNumber: "9992223333",

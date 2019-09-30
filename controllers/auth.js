@@ -37,9 +37,8 @@ exports.validateRegisterOwnerArray = [
 	sanitizeBody("lastName"),
 	check("emailAddress", "Email is not valid").isEmail(),
 	sanitizeBody("emailAddress").normalizeEmail({
-		remove_dots: false,
-		remove_extension: false,
-		gmail_remove_subaddress: false
+		gmail_remove_dots: false,
+		remove_extension: false
 	})
 ];
 
@@ -61,18 +60,16 @@ exports.validateRegisterUserArray = [
 	sanitizeBody("lastName"),
 	check("emailAddress", "Email is not valid").isEmail(),
 	sanitizeBody("emailAddress").normalizeEmail({
-		remove_dots: false,
-		remove_extension: false,
-		gmail_remove_subaddress: false
+		gmail_remove_dots: false,
+		remove_extension: false
 	})
 ];
 
 exports.validateLoginArray = [
 	check("emailAddress", "Email is not valid").isEmail(),
 	sanitizeBody("emailAddress").normalizeEmail({
-		remove_dots: false,
-		remove_extension: false,
-		gmail_remove_subaddress: false
+		gmail_remove_dots: false,
+		remove_extension: false
 	}),
 	check("password", "Password cannot be empty!")
 		.not()
@@ -98,18 +95,16 @@ exports.validateForgotPasswordArray = [
 	sanitizeBody("lastName"),
 	check("emailAddress", "Email is not valid").isEmail(),
 	sanitizeBody("emailAddress").normalizeEmail({
-		remove_dots: false,
-		remove_extension: false,
-		gmail_remove_subaddress: false
+		gmail_remove_dots: false,
+		remove_extension: false
 	})
 ];
 
 exports.validateForgotPasswordResetArray = [
 	check("emailAddress", "Email is not valid").isEmail(),
 	sanitizeBody("emailAddress").normalizeEmail({
-		remove_dots: false,
-		remove_extension: false,
-		gmail_remove_subaddress: false
+		gmail_remove_dots: false,
+		remove_extension: false
 	}),
 	check("verifyCode", "Verify Code cannot be empty!")
 		.not()
@@ -134,9 +129,8 @@ exports.validateConfirmationOwnerArray = [
 		.isEmpty(),
 	check("emailAddress", "Email is not valid").isEmail(),
 	sanitizeBody("emailAddress").normalizeEmail({
-		remove_dots: false,
-		remove_extension: false,
-		gmail_remove_subaddress: false
+		gmail_remove_dots: false,
+		remove_extension: false
 	})
 ];
 
@@ -149,9 +143,8 @@ exports.validateConfirmationUserArray = [
 		.isEmpty(),
 	check("emailAddress", "Email is not valid").isEmail(),
 	sanitizeBody("emailAddress").normalizeEmail({
-		remove_dots: false,
-		remove_extension: false,
-		gmail_remove_subaddress: false
+		gmail_remove_dots: false,
+		remove_extension: false
 	})
 ];
 
