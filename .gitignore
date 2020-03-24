@@ -24,3 +24,6 @@ variables-prod.env
 
 #keys
 privateKey.pem
+
+# pm2
+ecosystem.config.js
