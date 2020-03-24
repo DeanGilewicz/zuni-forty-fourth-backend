@@ -19,4 +19,8 @@ npm-debug.log*
 
 # Env variables
 variables-dev.env
+variables-ssh.env
 variables-prod.env
+
+#keys
+privateKey.pem
