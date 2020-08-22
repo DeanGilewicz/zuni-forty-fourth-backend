@@ -12,7 +12,7 @@
 	"author": "Dean Gilewicz",
 	"license": "ISC",
 	"dependencies": {
-		"bcrypt": "^3.0.4",
+		"bcrypt": "^5.0.0",
 		"body-parser": "^1.18.3",
 		"cloudinary": "^1.14.0",
 		"connect-session-sequelize": "^6.0.0",
