@@ -1,18 +1,18 @@
 {
 	"name": "zunifortyfourthbackend",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Backend API for Zuni Forty Fourth Application",
 	"scripts": {
 		"start": "node ./start.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"engines": {
-		"node": "10.x"
+		"node": "14.x"
 	},
 	"author": "Dean Gilewicz",
 	"license": "ISC",
 	"dependencies": {
-		"bcrypt": "^5.0.0",
+		"bcrypt": "^5.0.1",
 		"body-parser": "^1.18.3",
 		"cloudinary": "^1.14.0",
 		"connect-session-sequelize": "^6.0.0",
@@ -30,7 +30,7 @@
 		"nodemailer": "^6.4.16",
 		"pug": "^3.0.1",
 		"sequelize": "^5.21.2",
-		"tunnel-ssh": "^4.1.4"
+		"tunnel-ssh": "^4.1.6"
 	},
 	"main": "app.js",
 	"devDependencies": {
