@@ -1,7 +1,9 @@
 // import environmental variables from our variables.env file
 const config =
-	process.env === "production" ? "variables-prod.env" : "variables-dev.env";
-
+	process.env.NODE_ENV === "production"
+		? "variables-prod.env"
+		: "variables-dev.env";
+console.log("CONFIG HERE", config);
 require("dotenv").config({ path: config });
 
 // Start our app!
