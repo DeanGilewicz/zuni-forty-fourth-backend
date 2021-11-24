@@ -3,7 +3,7 @@ const config =
 	process.env.NODE_ENV === "production"
 		? "variables-prod.env"
 		: "variables-dev.env";
-console.log("CONFIG HERE", config);
+
 require("dotenv").config({ path: config });
 
 // Start our app!
