@@ -1,12 +1,11 @@
 const { User, Property, Interest } = require("../sequelize"); // import Sequelize modals
-const { check } = require("express-validator/check");
-const { sanitizeBody } = require("express-validator/filter");
+const { check } = require("express-validator");
 const { dataUri } = require("../handlers/fileUpload.js");
-const { uploader, api } = require("cloudinary");
+const { uploader } = require("cloudinary");
 
 exports.getUsers = async (req, res) => {
 	const users = await User.findAll({
-		include: [{ model: Property }]
+		include: [{ model: Property }],
 	});
 	if (!users)
 		return res
@@ -14,7 +13,7 @@ exports.getUsers = async (req, res) => {
 			.json({ type: "error", action: "get users", result: "No users found" });
 	// remove passwords
 	if (users.length > 0) {
-		users.forEach(user => delete user.dataValues.password);
+		users.forEach((user) => delete user.dataValues.password);
 	}
 	return res.json({ type: "success", action: "get users", result: users });
 };
@@ -23,7 +22,7 @@ exports.getCurrentUser = async (req, res) => {
 	const userId = req.session.user;
 	const user = await User.findOne({
 		where: { id: userId },
-		include: [{ model: Interest }]
+		include: [{ model: Interest }],
 	});
 	if (!user)
 		return res
@@ -34,7 +33,7 @@ exports.getCurrentUser = async (req, res) => {
 	return res.json({
 		type: "success",
 		action: "get user",
-		result: user.dataValues
+		result: user.dataValues,
 	});
 };
 
@@ -50,7 +49,7 @@ exports.getUser = async (req, res) => {
 	return res.json({
 		type: "success",
 		action: "get the user",
-		result: user.dataValues
+		result: user.dataValues,
 	});
 };
 
@@ -64,7 +63,7 @@ exports.updateUser = async (req, res) => {
 	return res.json({
 		type: "success",
 		action: "update user",
-		result: updatedUser.dataValues
+		result: updatedUser.dataValues,
 	});
 };
 
@@ -73,102 +72,71 @@ exports.validateCurrentUserUpdateArray = [
 		.optional({ checkFalsy: false })
 		.trim()
 		.escape(),
-	sanitizeBody("firstName"),
-	check("lastName", "You must supply a last name")
-		.optional()
-		.trim()
-		.escape(),
-	sanitizeBody("lastName"),
+	check("lastName", "You must supply a last name").optional().trim().escape(),
 	check("phoneNumber", "You must supply a phone number")
 		.optional()
 		.trim()
 		.isNumeric()
 		.isLength({ min: 10, max: 10 }),
-	sanitizeBody("interests")
 ];
 
 exports.validateCurrentUserPasswordUpdateArray = [
-	check("password", "You must supply a password")
-		.trim()
-		.escape(),
-	sanitizeBody("password"),
-	check("newPassword", "You must supply a new password")
-		.trim()
-		.escape(),
-	sanitizeBody("newPassword"),
-	check("confirmPassword", "You must supply a new password")
-		.trim()
-		.escape()
+	check("password", "You must supply a password").trim().escape(),
+	check("newPassword", "You must supply a new password").trim().escape(),
+	check("confirmPassword", "You must supply a new password").trim().escape(),
 ];
 
 exports.validateUserArray = [
-	check("userId", "You must supply a userId")
-		.not()
-		.isEmpty(),
-	sanitizeBody("userId")
+	check("userId", "You must supply a userId").not().isEmpty(),
 ];
 
 exports.validateUserUpdateArray = [
-	check("user.propertyId", "You must supply a property")
-		.not()
-		.isEmpty(),
+	check("user.propertyId", "You must supply a property").not().isEmpty(),
 	check("user.firstName", "You must supply a first name")
 		.optional({ checkFalsy: false })
 		.trim()
 		.escape(),
-	sanitizeBody("user.firstName"),
 	check("user.lastName", "You must supply a last name")
 		.optional()
 		.trim()
 		.escape(),
-	sanitizeBody("user.lastName"),
 	check("user.phoneNumber", "You must supply a phone number")
 		.optional()
 		.trim()
 		.isNumeric()
-		.isLength({ min: 10, max: 10 })
+		.isLength({ min: 10, max: 10 }),
 ];
 
 exports.validateUserDeleteArray = [
-	check("userId", "You must supply a user")
-		.not()
-		.isEmpty(),
-	sanitizeBody("userId")
+	check("userId", "You must supply a user").not().isEmpty(),
 ];
 
 exports.validateOwnerUpdateArray = [
-	check("owner.propertyId", "You must supply a property")
-		.not()
-		.isEmpty(),
+	check("owner.propertyId", "You must supply a property").not().isEmpty(),
 	check("owner.firstName", "You must supply a first name")
 		.optional({ checkFalsy: false })
 		.trim()
 		.escape(),
-	sanitizeBody("owner.firstName"),
 	check("owner.lastName", "You must supply a last name")
 		.optional()
 		.trim()
 		.escape(),
-	sanitizeBody("owner.lastName"),
 	check("owner.phoneNumber", "You must supply a phone number")
 		.optional()
 		.trim()
 		.isNumeric()
-		.isLength({ min: 10, max: 10 })
+		.isLength({ min: 10, max: 10 }),
 ];
 
 exports.validateOwnerDeleteArray = [
-	check("ownerId", "You must supply an owner")
-		.not()
-		.isEmpty(),
-	sanitizeBody("ownerId")
+	check("ownerId", "You must supply an owner").not().isEmpty(),
 ];
 
 exports.updateCurrentUser = async (req, res) => {
 	const userId = req.session.user;
 	const user = await User.findOne({
 		where: { id: userId },
-		include: [{ model: Interest }]
+		include: [{ model: Interest }],
 	});
 	if (!user)
 		return res
@@ -199,14 +167,19 @@ exports.updateCurrentUser = async (req, res) => {
 					);
 				} catch (err) {
 					let errorMessage = "Failed to update interest";
-					if( typeof err.errors !== "undefined" && typeof err.errors[0] !== "undefined" && typeof err.errors[0].message !== "undefined" && err.errors[0].message !== '') {
+					if (
+						typeof err.errors !== "undefined" &&
+						typeof err.errors[0] !== "undefined" &&
+						typeof err.errors[0].message !== "undefined" &&
+						err.errors[0].message !== ""
+					) {
 						errorMessage = err.errors[0].message;
-					};
+					}
 					await user.update(data);
 					return res.status(404).json({
 						type: "error",
 						action: "update user",
-						result: errorMessage
+						result: errorMessage,
 					});
 				}
 			}
@@ -221,14 +194,14 @@ exports.updateCurrentUser = async (req, res) => {
 			return res.json({
 				type: "success",
 				action: "update user",
-				result: userWithInterests.dataValues
+				result: userWithInterests.dataValues,
 			});
 		})();
 	} else {
 		return res.json({
 			type: "success",
 			action: "update user",
-			result: userWithInterests.dataValues
+			result: userWithInterests.dataValues,
 		});
 	}
 };
@@ -242,30 +215,30 @@ exports.updateCurrentUserProfileImage = async (req, res) => {
 			return res.status(404).json({
 				type: "error",
 				action: "converting file to string",
-				result: "Unable to convert file"
+				result: "Unable to convert file",
 			});
 		const uploadedFile = await uploader.upload(file, null, {
 			folder: "zuni44",
-			use_filename: true
+			use_filename: true,
 		});
 		if (!uploadedFile)
 			return res.status(404).json({
 				type: "error",
 				action: "uploading file",
-				result: "Failed to upload image"
+				result: "Failed to upload image",
 			});
 		// cloudinary image upload ref
 		const image = uploadedFile.secure_url;
 		// find user
 		const user = await User.findOne({
 			where: { id: userId },
-			include: [{ model: Interest }]
+			include: [{ model: Interest }],
 		});
 		if (!user)
 			return res.status(404).json({
 				type: "error",
 				action: "no user",
-				result: "Image unable to be saved for user"
+				result: "Image unable to be saved for user",
 			});
 		// delete current profile image for user from Cloudinary - except for profile-placeholder image
 		if (user.image && user.image.indexOf("profile-placeholder") === -1) {
@@ -276,12 +249,12 @@ exports.updateCurrentUserProfileImage = async (req, res) => {
 		}
 		// update user's image in db
 		const updatedUser = await user.update({
-			image: image
+			image: image,
 		});
 		return res.json({
 			type: "success",
 			action: "update user profile image",
-			result: updatedUser.dataValues
+			result: updatedUser.dataValues,
 		});
 	}
 };
@@ -290,13 +263,13 @@ exports.resetCurrentUserProfileImage = async (req, res) => {
 	const userId = req.session.user;
 	const user = await User.findOne({
 		where: { id: userId },
-		include: [{ model: Interest }]
+		include: [{ model: Interest }],
 	});
 	if (!user)
 		return res.status(404).json({
 			type: "error",
 			action: "no user",
-			result: "Image unable to be saved for user"
+			result: "Image unable to be saved for user",
 		});
 	// ref placeholder image
 	const placeholderImage =
@@ -310,12 +283,12 @@ exports.resetCurrentUserProfileImage = async (req, res) => {
 	}
 	// update user's image in db
 	const updatedUser = await user.update({
-		image: placeholderImage
+		image: placeholderImage,
 	});
 	return res.json({
 		type: "success",
 		action: "reset user profile image",
-		result: updatedUser.dataValues
+		result: updatedUser.dataValues,
 	});
 };
 
@@ -330,7 +303,7 @@ exports.deleteCurrentUser = async (req, res) => {
 	return res.json({
 		type: "success",
 		action: "delete user",
-		result: deletedUser
+		result: deletedUser,
 	});
 };
 
@@ -342,14 +315,14 @@ exports.deleteUser = async (req, res) => {
 			.json({ type: "error", action: "no user", result: "No user found" });
 	// delete user interests if any exist
 	await Interest.destroy({
-		where: { userId: user.id }
+		where: { userId: user.id },
 	});
 	const deletedUser = await user.destroy();
 	delete deletedUser.dataValues.password;
 	return res.json({
 		type: "success",
 		action: "delete user",
-		result: deletedUser
+		result: deletedUser,
 	});
 };
 
@@ -365,7 +338,7 @@ exports.updateOwner = async (req, res) => {
 	return res.json({
 		type: "success",
 		action: "update owner",
-		result: updatedOwner.dataValues
+		result: updatedOwner.dataValues,
 	});
 };
 
@@ -379,37 +352,40 @@ exports.deleteOwner = async (req, res) => {
 	// get property for this owner
 	const property = await Property.findOne({
 		where: { ownerId: owner.id },
-		include: [{ model: User, as: "owner" }, { model: User, as: "users" }]
+		include: [
+			{ model: User, as: "owner" },
+			{ model: User, as: "users" },
+		],
 	});
 	if (!property)
 		return res.status(404).json({
 			type: "error",
 			action: "property owner does not exist",
-			result: "No property found"
+			result: "No property found",
 		});
 	// check property doesn't have any users - using 1 since owner is included in users array
 	if (property.users.length > 1) {
 		return res.status(404).json({
 			type: "error",
 			action: "delete owner",
-			result: "Cannot delete owner as users exist"
+			result: "Cannot delete owner as users exist",
 		});
 	}
 	// delete owner interests if any exist
 	await Interest.destroy({
-		where: { userId: owner.id }
+		where: { userId: owner.id },
 	});
 	// delete owner (user)
 	const deletedOwner = await owner.destroy();
 	delete deletedOwner.dataValues.password;
 	// update property
 	await property.update({
-		ownerId: null
+		ownerId: null,
 	});
 	// return deleted owner
 	return res.json({
 		type: "success",
 		action: "delete owner",
-		result: deletedOwner
+		result: deletedOwner,
 	});
 };

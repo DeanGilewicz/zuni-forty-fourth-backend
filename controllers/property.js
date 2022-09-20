@@ -1,31 +1,18 @@
 const { Op } = require("sequelize");
 const { Property, User, Interest } = require("../sequelize"); // import Sequelize modals
-const { check } = require("express-validator/check");
-const { sanitizeBody } = require("express-validator/filter");
+const { check } = require("express-validator");
 
 exports.validatePropertyUsersArray = [
-	check("propertyId", "You must supply a propertyId")
-		.not()
-		.isEmpty(),
-	sanitizeBody("propertyId")
+	check("propertyId", "You must supply a propertyId").not().isEmpty(),
 ];
 
 exports.validatePropertyChangeOwnerArray = [
-	check("propertyId", "You must supply a property")
-		.not()
-		.isEmpty(),
-	sanitizeBody("propertyId"),
-	check("userId", "You must supply a user")
-		.not()
-		.isEmpty(),
-	sanitizeBody("userId")
+	check("propertyId", "You must supply a property").not().isEmpty(),
+	check("userId", "You must supply a user").not().isEmpty(),
 ];
 
 exports.validateOwnerArray = [
-	check("ownerId", "You must supply an owner")
-		.not()
-		.isEmpty(),
-	sanitizeBody("ownerId")
+	check("ownerId", "You must supply an owner").not().isEmpty(),
 ];
 
 exports.validatePropertiesNoOwnerArray = [];
@@ -38,7 +25,7 @@ exports.getProperties = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "No properties found"
+			result: "No properties found",
 		});
 	return res.json(properties);
 };
@@ -46,14 +33,14 @@ exports.getProperties = async (req, res) => {
 exports.getAllPropertiesNoOwner = async (req, res) => {
 	const properties = await Property.findAll({
 		where: {
-			ownerId: null
-		}
+			ownerId: null,
+		},
 	});
 	if (!properties)
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "No properties found"
+			result: "No properties found",
 		});
 	return res.json(properties);
 };
@@ -62,31 +49,32 @@ exports.getAllPropertiesHasOwner = async (req, res) => {
 	const properties = await Property.findAll({
 		where: {
 			ownerId: {
-				[Op.not]: null
-			}
-		}
+				[Op.not]: null,
+			},
+		},
 	});
 	if (!properties)
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "No properties found"
+			result: "No properties found",
 		});
 	return res.json(properties);
 };
 
 exports.getAllProperties = async (req, res) => {
 	const properties = await Property.findAll({
-		include: [{ model: User, as: "owner" }, { model: User, as: "users" }],
-		order: [
-			['id', 'ASC']
-		]
+		include: [
+			{ model: User, as: "owner" },
+			{ model: User, as: "users" },
+		],
+		order: [["id", "ASC"]],
 	});
 	if (!properties)
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "No properties found"
+			result: "No properties found",
 		});
 	return res.json(properties);
 };
@@ -97,18 +85,16 @@ exports.getAllPropertiesWithUsers = async (req, res) => {
 			{
 				model: User,
 				as: "users",
-				include: [Interest]
-			}
+				include: [Interest],
+			},
 		],
-		order: [
-			['id', 'ASC']
-		]
+		order: [["id", "ASC"]],
 	});
 	if (!properties)
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "No properties found"
+			result: "No properties found",
 		});
 	return res.json(properties);
 };
@@ -117,13 +103,13 @@ exports.getPropertyUsers = async (req, res) => {
 	const { propertyId } = req.body;
 	const properties = await Property.findOne({
 		where: { id: propertyId },
-		include: [{ model: User, as: "users" }]
+		include: [{ model: User, as: "users" }],
 	});
 	if (!properties)
 		return res.status(404).json({
 			type: "error",
 			action: "no properties",
-			result: "No properties found"
+			result: "No properties found",
 		});
 	return res.json(properties);
 };
@@ -133,13 +119,13 @@ exports.getPropertyByOwner = async (req, res) => {
 	// find property
 	const property = await Property.findOne({
 		where: { ownerId: ownerId },
-		include: [{ model: User, as: "users" }]
+		include: [{ model: User, as: "users" }],
 	});
 	if (!property)
 		return res.status(404).json({
 			type: "error",
 			action: "no property",
-			result: "No property found"
+			result: "No property found",
 		});
 	return res.json(property);
 };
@@ -152,7 +138,7 @@ exports.changeOwner = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no property",
-			result: "No property found"
+			result: "No property found",
 		});
 	// find owner
 	const owner = await User.findByPk(property.dataValues.ownerId);
@@ -172,13 +158,13 @@ exports.changeOwner = async (req, res) => {
 			return await Promise.all([
 				property.update({ ownerId: userId }), // update property owner
 				owner.update({ userRoleId: 3 }), // update owner to user
-				user.update({ userRoleId: 2 }) // update user to owner
+				user.update({ userRoleId: 2 }), // update user to owner
 			]);
 		} catch (err) {
 			return res.status(404).json({
 				type: "error",
 				action: "no change of owner",
-				result: err
+				result: err,
 			});
 		}
 	};
@@ -189,20 +175,23 @@ exports.changeOwner = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no change of owner",
-			result: "Property owner could not be updated"
+			result: "Property owner could not be updated",
 		});
 	}
 	// find property
 	const updatedProperty = await Property.findOne({
 		where: { id: propertyId },
-		include: [{ model: User, as: "owner" }, { model: User, as: "users" }]
+		include: [
+			{ model: User, as: "owner" },
+			{ model: User, as: "users" },
+		],
 	});
 	// if no property then return error
 	if (!updatedProperty) {
 		return res.status(404).json({
 			type: "error",
 			action: "update property",
-			result: "Updated property can not be retrieved"
+			result: "Updated property can not be retrieved",
 		});
 	}
 	// return updated property

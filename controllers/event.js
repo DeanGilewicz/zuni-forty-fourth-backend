@@ -1,120 +1,90 @@
 const { Event } = require("../sequelize"); // import Sequelize modals
-const { check } = require("express-validator/check");
-const { sanitizeBody } = require("express-validator/filter");
+const { check } = require("express-validator");
 
 exports.validateEventsArray = [
 	check("cost", "You must supply an event cost")
-		.trim()
-		.escape()
 		.not()
-		.isEmpty(),
-	sanitizeBody("cost"),
+		.isEmpty()
+		.trim()
+		.escape(),
 	check("start", "You must supply an event start date and time")
-		.trim()
-		.escape()
 		.not()
-		.isEmpty(),
-	sanitizeBody("start"),
+		.isEmpty()
+		.trim()
+		.escape(),
 	check("end", "You must supply an event end date and time")
-		.trim()
-		.escape()
 		.not()
-		.isEmpty(),
-	sanitizeBody("end"),
+		.isEmpty()
+		.trim()
+		.escape(),
 	check("name", "You must supply an event name")
-		.trim()
-		.escape()
 		.not()
-		.isEmpty(),
-	sanitizeBody("name"),
+		.isEmpty()
+		.trim()
+		.escape(),
 	check("address", "You must supply an event address")
-		.trim()
-		.escape()
 		.not()
-		.isEmpty(),
-	sanitizeBody("address"),
+		.isEmpty()
+		.trim()
+		.escape(),
 	check("city", "You must supply an event city")
-		.trim()
-		.escape()
 		.not()
-		.isEmpty(),
-	sanitizeBody("city"),
+		.isEmpty()
+		.trim()
+		.escape(),
 	check("state", "You must supply an event state")
-		.trim()
-		.escape()
 		.not()
-		.isEmpty(),
-	sanitizeBody("state"),
+		.isEmpty()
+		.trim()
+		.escape(),
 	check("zipCode", "You must supply an event zip code")
-		.trim()
-		.escape()
 		.not()
-		.isEmpty(),
-	sanitizeBody("zipCode")
+		.isEmpty()
+		.trim()
+		.escape(),
 ];
 
 exports.validateEventDeleteArray = [
-	check("event", "You must supply an event")
-		.not()
-		.isEmpty()
-		.exists({
-			checkNull: true
-		})
+	check("event", "You must supply an event").not().isEmpty().exists({
+		checkNull: true,
+	}),
 ];
 
 exports.validateEventUpdateArray = [
 	check("event.address", "You must supply an address")
-		.trim()
-		.escape()
 		.not()
-		.isEmpty(),
-	sanitizeBody("event.address"),
-	check("event.city", "You must supply a city")
-		.trim()
-		.escape()
-		.not()
-		.isEmpty(),
-	sanitizeBody("event.city"),
-	check("event.cost", "You must supply a cost")
-		.optional()
+		.isEmpty()
 		.trim()
 		.escape(),
-	sanitizeBody("event.cost"),
-	check("event.end", "You must supply an end date")
-		.not()
-		.isEmpty()
-		.exists({
-			checkNull: true
-		}),
+	check("event.city", "You must supply a city").not().isEmpty().trim().escape(),
+
+	check("event.cost", "You must supply a cost").optional().trim().escape(),
+
+	check("event.end", "You must supply an end date").not().isEmpty().exists({
+		checkNull: true,
+	}),
 	check("event.name", "You must supply an end date")
-		.trim()
-		.escape()
-		.not()
-		.isEmpty(),
-	sanitizeBody("event.name"),
-	check("event.start", "You must supply a start date")
 		.not()
 		.isEmpty()
-		.exists({
-			checkNull: true
-		}),
-	check("event.state", "You must supply a state")
 		.trim()
-		.escape()
+		.escape(),
+	check("event.start", "You must supply a start date").not().isEmpty().exists({
+		checkNull: true,
+	}),
+	check("event.state", "You must supply a state")
 		.not()
-		.isEmpty(),
-	sanitizeBody("event.state"),
+		.isEmpty()
+		.trim()
+		.escape(),
 	check("event.zipCode", "You must supply a zip code")
 		.trim()
 		.isNumeric()
-		.isLength({ min: 5, max: 5 })
+		.isLength({ min: 5, max: 5 }),
 ];
 
 exports.getEvents = async (req, res) => {
 	const events = await Event.findAll({
-		order: [
-			['start', 'ASC']
-		]
+		order: [["start", "ASC"]],
 	});
 	if (!events)
 		return res
@@ -128,7 +98,7 @@ exports.createEvent = async (req, res) => {
 	return res.json({
 		type: "success",
 		action: "create event",
-		result: createdEvent.dataValues
+		result: createdEvent.dataValues,
 	});
 };
 
@@ -138,14 +108,14 @@ exports.updateEvent = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no event",
-			result: "No event found"
+			result: "No event found",
 		});
 	delete req.body.event.id; // do not allow id to be updated
 	const updatedEvent = await event.update({ ...req.body.event });
 	return res.json({
 		type: "success",
 		action: "update event",
-		result: updatedEvent.dataValues
+		result: updatedEvent.dataValues,
 	});
 };
 
@@ -155,12 +125,12 @@ exports.deleteEvent = async (req, res) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no event",
-			result: "No event found"
+			result: "No event found",
 		});
 	const deletedEvent = await event.destroy();
 	return res.json({
 		type: "success",
 		action: "delete event",
-		result: deletedEvent
+		result: deletedEvent,
 	});
 };

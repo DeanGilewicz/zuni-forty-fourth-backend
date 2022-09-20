@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
-const tunnel = require('tunnel-ssh');
-const fs = require('fs');
-const seedData = require('./seedData');
+const tunnel = require("tunnel-ssh");
+const fs = require("fs");
+const seedData = require("./seedData");
 
 const UserModel = require("./models/user");
 const UserStatusModel = require("./models/userStatus");
@@ -19,11 +19,11 @@ const seedDataUserInterests = seedData.userInterests;
 const seedDataEvents = seedData.events;
 const seedDataCompanies = seedData.companies;
 
-let dialectOptions = {
-	useUTC: false, // for reading from database
-	dateStrings: true,
-	typeCast: true
-};
+// let dialectOptions = {
+// 	useUTC: false, // for reading from database
+// 	dateStrings: true,
+// 	typeCast: true,
+// };
 
 if (process.env.DB_SSL) {
 	dialectOptions.ssl = process.env.DB_SSL;
@@ -38,12 +38,12 @@ const sequelize = new Sequelize(
 		dialect: "mysql",
 		storage: "./session.mysql",
 		operatorsAliases: "0",
-		dialectOptions: dialectOptions,
-		timezone: "-06:00" // for writing to database
+		// dialectOptions: dialectOptions,
+		timezone: "-06:00", // for writing to database
 	}
 );
 
-if( process.env.NODE_ENV === "sshTunnel" ) {
+if (process.env.NODE_ENV === "sshTunnel") {
 	const sshTunnelConfig = {
 		username: process.env.SSH_TUNNEL_USERNAME, // SSH username
 		Password: process.env.SSH_TUNNEL_PASSWORD,
@@ -54,10 +54,12 @@ if( process.env.NODE_ENV === "sshTunnel" ) {
 		// localHost: '',
 		// localPort: 0, // same as dstPort, It'll be the port you'll use for your local machine
 		passphrase: process.env.SSH_TUNNEL_DESTINATION_PASSPHRASE,
-		privateKey: fs.readFileSync(process.env.SSH_TUNNEL_DESTINATION_PRIVATE_KEY_PATH),
+		privateKey: fs.readFileSync(
+			process.env.SSH_TUNNEL_DESTINATION_PRIVATE_KEY_PATH
+		),
 	};
 	tunnel(sshTunnelConfig, function (error, server) {
-		if( error ) {
+		if (error) {
 			return console.error(error);
 		} else {
 			// console.log('sshed to server:', server);
@@ -68,8 +70,7 @@ if( process.env.NODE_ENV === "sshTunnel" ) {
 			// 	console.error('unable establish connection', err);
 			// })
 		}
-	})
-
+	});
 }
 
 const User = UserModel(sequelize, Sequelize);
@@ -91,7 +92,10 @@ Interest.belongsTo(User);
 User.hasMany(Interest);
 
 // only seed data for development
-if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel") {
+if (
+	process.env.NODE_ENV !== "production" &&
+	process.env.NODE_ENV !== "sshTunnel"
+) {
 	// Create tables if don't exit
 	sequelize.sync({ force: true }).then(() => {
 		// Add seed data
@@ -103,7 +107,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 		const events = Event.bulkCreate(seedDataEvents);
 		const company = Company.bulkCreate(seedDataCompanies);
 		Promise.all([seedProperty, users, userStatus, userRole, events, company])
-			.then(response => {
+			.then((response) => {
 				// create seed relationships
 				const propertyId = response[0][0].dataValues.id;
 
@@ -157,7 +161,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						// propertyId: propertyId,
 						userRoleId: adminRoleId,
-						userStatusId: adminStatusId
+						userStatusId: adminStatusId,
 					},
 					{ where: { id: adminId } }
 				);
@@ -166,7 +170,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						propertyId: propertyId,
 						userRoleId: ownerRoleId,
-						userStatusId: ownerStatusId
+						userStatusId: ownerStatusId,
 					},
 					{ where: { id: ownerId } }
 				);
@@ -174,7 +178,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						propertyId: propertyId,
 						userRoleId: userRoleId,
-						userStatusId: userStatusId
+						userStatusId: userStatusId,
 					},
 					{ where: { id: userId } }
 				);
@@ -182,7 +186,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						propertyId: propertyId,
 						userRoleId: userRoleId2,
-						userStatusId: userStatusId2
+						userStatusId: userStatusId2,
 					},
 					{ where: { id: userId2 } }
 				);
@@ -190,7 +194,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						propertyId: propertyId2,
 						userRoleId: ownerRoleId2,
-						userStatusId: ownerStatusId2
+						userStatusId: ownerStatusId2,
 					},
 					{ where: { id: ownerId2 } }
 				);
@@ -198,7 +202,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						propertyId: propertyId2,
 						userRoleId: userRoleId3,
-						userStatusId: userStatusId3
+						userStatusId: userStatusId3,
 					},
 					{ where: { id: userId3 } }
 				);
@@ -206,7 +210,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						propertyId: propertyId3,
 						userRoleId: ownerStatusId3,
-						userStatusId: ownerRoleId3
+						userStatusId: ownerRoleId3,
 					},
 					{ where: { id: ownerId3 } }
 				);
@@ -214,7 +218,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						propertyId: propertyId3,
 						userRoleId: userRoleId4,
-						userStatusId: userStatusId4
+						userStatusId: userStatusId4,
 					},
 					{ where: { id: userId4 } }
 				);
@@ -222,7 +226,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						propertyId: propertyId4,
 						userRoleId: ownerStatusId4,
-						userStatusId: ownerRoleId4
+						userStatusId: ownerRoleId4,
 					},
 					{ where: { id: ownerId4 } }
 				);
@@ -230,7 +234,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 					{
 						propertyId: propertyId4,
 						userRoleId: userRoleId5,
-						userStatusId: userStatusId5
+						userStatusId: userStatusId5,
 					},
 					{ where: { id: userId5 } }
 				);
@@ -238,28 +242,28 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 				Property.update(
 					{
 						ownerId: ownerId4,
-						users: [userId, userId2]
+						users: [userId, userId2],
 					},
 					{ where: { streetAddress: "123 Demo Ave" } }
 				);
 				Property.update(
 					{
 						ownerId: ownerId,
-						users: [userId3]
+						users: [userId3],
 					},
 					{ where: { streetAddress: "456 Demo Ave" } }
 				);
 				Property.update(
 					{
 						ownerId: ownerId2,
-						users: [userId4]
+						users: [userId4],
 					},
 					{ where: { streetAddress: "789 Demo Ave" } }
 				);
 				Property.update(
 					{
 						ownerId: ownerId3,
-						users: [userId5]
+						users: [userId5],
 					},
 					{ where: { streetAddress: "1011 Demo Ave" } }
 				);
@@ -289,7 +293,7 @@ if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "sshTunnel
 				// );
 				console.log(`Database & tables created!`);
 			})
-			.catch(err => console.log(err));
+			.catch((err) => console.log(err));
 	});
 }
 
@@ -301,5 +305,5 @@ module.exports = {
 	Property,
 	Event,
 	Company,
-	Interest
+	Interest,
 };
