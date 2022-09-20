@@ -47,7 +47,7 @@ There were several reasons for working on this project, including the chance to:
 - integrate with 3rd party for image upload
 - send email
 
-### Roles
+### **Roles**
 
 The application uses 3 access roles:
 
@@ -61,7 +61,7 @@ Each property is allowed 1 `owner`. The owner must request access to the applica
 
 A `user`, once approved, can modify their information but has no permissions to approve or view any other household member of the property they belong to.
 
-### Register Owner Flow
+### **Register Owner Flow**
 
 When adding an `owner`, the admin submits a form providing details of the `owner` including their email address. The `owner` is then sent a registration email containing a temp password and verification code and a link to the sign up page. The `owner` is added to the DB with a `request` status.
 
@@ -81,7 +81,7 @@ When submitting the request to register, the server is responsible for:
 - checking verification code expiration has not expired - must register within 48 hours
 - upon successful registration, associating owner with their property
 
-#### Register User Flow
+### **Register User Flow**
 
 Adding a `user` can be requested by the `admin` or an `owner`. In either case, a form is submitted that provides details of the `user` including their email address. The `user` is then sent a registration email containing a temp password and verification code and a link to the sign up page. The `user` is added to the DB with a `request` status.
 
@@ -101,7 +101,7 @@ When submitting the request to register, the server is responsible for:
 - checking verification code expiration has not expired - must register within 48 hours
 - upon successful registration, associating user with their property
 
-#### Login
+### **Login**
 
 The first time an `owner` or `user` logs in they need to use their `temp password` provided in the invitation email. They can then go to `my profile` to change their password.
 
@@ -117,7 +117,7 @@ When submitting the request to login, the provided email and password is sent. T
 
 _To protect the api, each request from a logged in user is verified by reconstructing JWT (from session and post request sent by client) before granting access to endpoint. The cookie is then updated (maxAge) upon each successful request_
 
-#### Forgot Password
+### **Forgot Password**
 
 Should an `owner` or `user` forget their password then they can visit `/forgot-password` and complete the form.Upon a successful submission, the requester receives a "password reset" email containing a reset code and a link (`/forgot-password-reset`) to confirm their password reset. The DB updates this user's status to `password`.
 
@@ -139,7 +139,7 @@ When submitting the request to change password, the server is responsible for:
 - checking verify code expiration hasn't expired
 - when user found and code has not expired then user's password is updated, user's status is updated and both the verify code and verify code expiration are set to null
 
-### Admin
+### **Admin**
 
 Admin can:
 
@@ -154,7 +154,7 @@ Admin can:
 
 _Note: An `owner` can only be added to a property that doesn't yet have an `owner`. A `user` can only be added to a property that has an `owner`._
 
-### Owner
+### **Owner**
 
 Owner can:
 
@@ -164,7 +164,7 @@ Owner can:
 
 _Note: owner cannot delete themselves_
 
-### User
+### **User**
 
 User can:
 
@@ -172,11 +172,11 @@ User can:
 
 _Note: user cannot delete themselves_
 
-#### Profile Picture
+### **Profile Picture**
 
 Upon creation of a `owner` or `user` a placeholder picture is saved for the record. Once logged in, the "user" can choose to upload their own profile picture, which is saved to `Cloudinary` and served via an optimized url.
 
-### Email
+### **Email**
 
 There are a few transaction emails that are sent from the application and in development [Mailtrap](https://mailtrap.io/) is used to intercept the email being sent in order to view it to confirm correctness. This is a simple way to avoid sending emails out to "users" while working on logic in development.
 
@@ -196,10 +196,6 @@ Below is a list of the major pieces of the tech stack that were used for this ap
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <br />
-
----
-
-HERE HERE HERE
 
 ## Getting Started
 
@@ -288,9 +284,9 @@ This application can be deployed anywhere where `NodeJS` can be ran.
 
 [express]: https://img.shields.io/badge/Express-20232A?style=for-the-badge&logo=express&logoColor=ffffff
 [express-url]: https://expressjs.com/
-[mysql]: https://img.shields.io/badge/MySQL-ffffff?style=for-the-badge&logo=mysql&logoColor=4479A1
+[mysql]: https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=ffffff
 [mysql-url]: https://www.mongodb.com/
-[sequelize]: https://img.shields.io/badge/Sequelize-ffffff?style=for-the-badge&logo=sequelize&logoColor=52B0E7
+[sequelize]: https://img.shields.io/badge/Sequelize-3C76C3?style=for-the-badge&logo=sequelize&logoColor=ffffff
 [sequelize-url]: https://mongoosejs.com/
 [pug]: https://img.shields.io/badge/Pug-A86454?style=for-the-badge&logo=pug&logoColor=ffffff
 [pug-url]: https://pugjs.org/api/getting-started.html
