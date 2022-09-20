@@ -1,5 +1,4 @@
-const { check, validationResult } = require("express-validator/check");
-const { sanitizeBody } = require("express-validator/filter");
+const { check, validationResult } = require("express-validator");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const { User, UserRole, Property } = require("../sequelize");
@@ -20,132 +19,128 @@ exports.validateResult = (req, res, next) => {
 /* START VALIDATION */
 
 exports.validateRegisterOwnerArray = [
-	check("propertyId", "You must supply a property")
-		.not()
-		.isEmpty(),
+	check("propertyId", "You must supply a property").not().isEmpty(),
 	check("firstName", "You must supply a first name")
 		.not()
 		.isEmpty()
 		.trim()
 		.escape(),
-	sanitizeBody("firstName"),
 	check("lastName", "You must supply a last name")
 		.not()
 		.isEmpty()
 		.trim()
 		.escape(),
-	sanitizeBody("lastName"),
-	check("emailAddress", "Email is not valid").isEmail(),
-	sanitizeBody("emailAddress").normalizeEmail({
-		gmail_remove_dots: false,
-		remove_extension: false
-	})
+	check("emailAddress", "Email is not valid")
+		.isEmail()
+		.trim()
+		.escape()
+		.normalizeEmail({
+			gmail_remove_dots: false,
+			remove_extension: false,
+		}),
 ];
 
 exports.validateRegisterUserArray = [
-	check("propertyId", "You must supply a property")
-		.not()
-		.isEmpty(),
+	check("propertyId", "You must supply a property").not().isEmpty(),
 	check("firstName", "You must supply a first name")
 		.not()
 		.isEmpty()
 		.trim()
 		.escape(),
-	sanitizeBody("firstName"),
 	check("lastName", "You must supply a last name")
 		.not()
 		.isEmpty()
 		.trim()
 		.escape(),
-	sanitizeBody("lastName"),
-	check("emailAddress", "Email is not valid").isEmail(),
-	sanitizeBody("emailAddress").normalizeEmail({
-		gmail_remove_dots: false,
-		remove_extension: false
-	})
+	check("emailAddress", "Email is not valid")
+		.isEmail()
+		.trim()
+		.escape()
+		.normalizeEmail({
+			gmail_remove_dots: false,
+			remove_extension: false,
+		}),
 ];
 
 exports.validateLoginArray = [
-	check("emailAddress", "Email is not valid").isEmail(),
-	sanitizeBody("emailAddress").normalizeEmail({
-		gmail_remove_dots: false,
-		remove_extension: false
-	}),
+	check("emailAddress", "Email is not valid")
+		.isEmail()
+		.trim()
+		.escape()
+		.normalizeEmail({
+			gmail_remove_dots: false,
+			remove_extension: false,
+		}),
 	check("password", "Password cannot be empty!")
 		.not()
-		.isEmpty(),
-	sanitizeBody("password")
+		.isEmpty()
+		.trim()
+		.escape(),
 ];
 
 exports.validateForgotPasswordArray = [
-	check("propertyId", "You must supply a property")
-		.not()
-		.isEmpty(),
+	check("propertyId", "You must supply a property").not().isEmpty(),
 	check("firstName", "You must supply a first name")
 		.not()
 		.isEmpty()
 		.trim()
 		.escape(),
-	sanitizeBody("firstName"),
 	check("lastName", "You must supply a last name")
 		.not()
 		.isEmpty()
 		.trim()
 		.escape(),
-	sanitizeBody("lastName"),
-	check("emailAddress", "Email is not valid").isEmail(),
-	sanitizeBody("emailAddress").normalizeEmail({
-		gmail_remove_dots: false,
-		remove_extension: false
-	})
+	check("emailAddress", "Email is not valid")
+		.isEmail()
+		.trim()
+		.escape()
+		.normalizeEmail({
+			gmail_remove_dots: false,
+			remove_extension: false,
+		}),
 ];
 
 exports.validateForgotPasswordResetArray = [
-	check("emailAddress", "Email is not valid").isEmail(),
-	sanitizeBody("emailAddress").normalizeEmail({
-		gmail_remove_dots: false,
-		remove_extension: false
-	}),
-	check("verifyCode", "Verify Code cannot be empty!")
-		.not()
-		.isEmpty(),
-	check("newPassword", "Password cannot be empty!")
-		.not()
-		.isEmpty(),
-	check("confirmPassword", "Confirm Password cannot be empty")
-		.not()
-		.isEmpty(),
+	check("emailAddress", "Email is not valid")
+		.isEmail()
+		.trim()
+		.escape()
+		.normalizeEmail({
+			gmail_remove_dots: false,
+			remove_extension: false,
+		}),
+	check("verifyCode", "Verify Code cannot be empty!").not().isEmpty(),
+	check("newPassword", "Password cannot be empty!").not().isEmpty(),
+	check("confirmPassword", "Confirm Password cannot be empty").not().isEmpty(),
 	check("confirmPassword", "Passwords do not match").custom(
 		(value, { req }) => value === req.body.newPassword
-	)
+	),
 ];
 
 exports.validateConfirmationOwnerArray = [
-	check("tempPassword", "You must supply a password")
-		.not()
-		.isEmpty(),
-	check("verifyCode", "You must supply a verification code")
-		.not()
-		.isEmpty(),
-	check("emailAddress", "Email is not valid").isEmail(),
-	sanitizeBody("emailAddress").normalizeEmail({
-		gmail_remove_dots: false,
-		remove_extension: false
-	})
+	check("tempPassword", "You must supply a password").not().isEmpty(),
+	check("verifyCode", "You must supply a verification code").not().isEmpty(),
+	check("emailAddress", "Email is not valid")
+		.isEmail()
+		.trim()
+		.escape()
+		.normalizeEmail({
+			gmail_remove_dots: false,
+			remove_extension: false,
+		}),
 ];
 
 exports.validateConfirmationUserArray = [
-	check("tempPassword", "You must supply a password")
-		.not()
-		.isEmpty(),
-	check("verifyCode", "You must supply a verification code")
-		.not()
-		.isEmpty(),
-	check("emailAddress", "Email is not valid").isEmail(),
-	sanitizeBody("emailAddress").normalizeEmail({
-		gmail_remove_dots: false,
-		remove_extension: false
-	})
+	check("tempPassword", "You must supply a password").not().isEmpty(),
+	check("verifyCode", "You must supply a verification code").not().isEmpty(),
+	check("emailAddress", "Email is not valid")
+		.isEmail()
+		.trim()
+		.escape()
+		.normalizeEmail({
+			gmail_remove_dots: false,
+			remove_extension: false,
+		}),
 ];
 
 /* END VALIDATION */
@@ -166,34 +161,34 @@ exports.registerOwner = async (req, res, next) => {
 	const owner = req.body;
 	// if user exists then return error
 	const existingOwner = await User.findOne({
-		where: { emailAddress: owner.emailAddress }
+		where: { emailAddress: owner.emailAddress },
 		// include: [{ model: User }]
 	});
 	if (existingOwner) {
 		return res.status(404).json({
 			type: "error",
 			action: "owner registration",
-			result: "Owner already exists"
+			result: "Owner already exists",
 		});
 	}
 	const { propertyId } = req.body;
 	// find property
 	const property = await Property.findOne({
-		where: { id: propertyId }
+		where: { id: propertyId },
 	});
 	// if no property found
 	if (!property)
 		return res.status(404).json({
 			type: "error",
 			action: "no property exists",
-			result: "No property found"
+			result: "No property found",
 		});
 	// check if property already has an owner since can't add another one
 	if (property.ownerId)
 		return res.status(404).json({
 			type: "error",
 			action: "owner exists",
-			result: "Owner already exists!"
+			result: "Owner already exists!",
 		});
 	// create predefined password
 	const generatedPassword = generatePassword();
@@ -206,7 +201,7 @@ exports.registerOwner = async (req, res, next) => {
 	// set verify code
 	owner.verifyCode = crypto.randomBytes(20).toString("hex");
 	// set verify code expiration - 48 hours from now
-	owner.verifyCodeExpiration = Date.now() + 60*60*48*1000; // 48 hours from now
+	owner.verifyCodeExpiration = Date.now() + 60 * 60 * 48 * 1000; // 48 hours from now
 	// set placeholder image
 	owner.image =
 		"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png";
@@ -220,12 +215,12 @@ exports.registerOwner = async (req, res, next) => {
 		property: property.dataValues,
 		registrationUrl: `${process.env.FE_HOST}/owner-registration-confirmation`,
 		tempPassword: generatedPassword,
-		subject: `${createdOwner.dataValues.firstName}, you have been invited to join Zuni Forty Fourth`
+		subject: `${createdOwner.dataValues.firstName}, you have been invited to join Zuni Forty Fourth`,
 	});
 	return res.json({
 		type: "success",
 		action: "register owner",
-		result: createdOwner
+		result: createdOwner,
 	});
 };
 
@@ -235,8 +230,8 @@ exports.confirmationOwner = async (req, res, next) => {
 	const user = await User.findOne({
 		where: {
 			emailAddress,
-			verifyCode
-		}
+			verifyCode,
+		},
 	});
 	// check user exists
 	if (!user)
@@ -254,7 +249,7 @@ exports.confirmationOwner = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "verification code expired",
-			result: "Verification code expired"
+			result: "Verification code expired",
 		});
 	user.verifyCode = null;
 	user.verifyCodeExpiration = null;
@@ -264,7 +259,7 @@ exports.confirmationOwner = async (req, res, next) => {
 	const createdOwner = await user.save();
 	// get associated property
 	const associatedProperty = await Property.findOne({
-		where: { id: createdOwner.propertyId }
+		where: { id: createdOwner.propertyId },
 	});
 	// set property owner
 	associatedProperty.ownerId = createdOwner.id;
@@ -272,7 +267,7 @@ exports.confirmationOwner = async (req, res, next) => {
 	return res.json({
 		type: "success",
 		action: "confirmation owner",
-		result: createdOwner.dataValues
+		result: createdOwner.dataValues,
 	});
 };
 
@@ -281,20 +276,20 @@ exports.registerUser = async (req, res, next) => {
 	const user = req.body;
 	// if user exists then return error
 	const existingUser = await User.findOne({
-		where: { emailAddress: user.emailAddress }
+		where: { emailAddress: user.emailAddress },
 		// include: [{ model: User }]
 	});
 	if (existingUser) {
 		return res.status(404).json({
 			type: "error",
 			action: "user registration",
-			result: "User already exists"
+			result: "User already exists",
 		});
 	}
 	const { propertyId } = req.body;
 	// find property
 	const property = await Property.findOne({
-		where: { id: propertyId }
+		where: { id: propertyId },
 		// include: [{ model: User }]
 	});
 	// if no property found return error
@@ -302,14 +297,14 @@ exports.registerUser = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "no property exists",
-			result: "No property found"
+			result: "No property found",
 		});
 	// if no owner found then exit since need an owner before adding additional users
 	if (!property.ownerId)
 		return res.status(404).json({
 			type: "error",
 			action: "no owner",
-			result: "Owner does not exist!"
+			result: "Owner does not exist!",
 		});
 	// get owner info
 	const owner = await User.findByPk(property.ownerId);
@@ -324,7 +319,7 @@ exports.registerUser = async (req, res, next) => {
 	// set verify code
 	user.verifyCode = crypto.randomBytes(20).toString("hex");
 	// set verify code expiration - 48 hours from now
-	user.verifyCodeExpiration = Date.now() + 60*60*48*1000; // 48 hours from now
+	user.verifyCodeExpiration = Date.now() + 60 * 60 * 48 * 1000; // 48 hours from now
 	// set placeholder image
 	user.image =
 		"https://res.cloudinary.com/cloudassets/image/upload/q_auto,f_auto/v1565501442/zuni44/profile-placeholder.png";
@@ -339,12 +334,12 @@ exports.registerUser = async (req, res, next) => {
 		property: property.dataValues,
 		registrationUrl: `${process.env.FE_HOST}/user-registration-confirmation`,
 		tempPassword: generatedPassword,
-		subject: `${createdUser.dataValues.firstName}, you have been invited to join Zuni Forty Fourth`
+		subject: `${createdUser.dataValues.firstName}, you have been invited to join Zuni Forty Fourth`,
 	});
 	return res.json({
 		type: "success",
 		action: "register user",
-		result: createdUser
+		result: createdUser,
 	});
 };
 
@@ -354,8 +349,8 @@ exports.confirmationUser = async (req, res, next) => {
 	const user = await User.findOne({
 		where: {
 			emailAddress,
-			verifyCode
-		}
+			verifyCode,
+		},
 	});
 	// check user exists
 	if (!user)
@@ -373,7 +368,7 @@ exports.confirmationUser = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "verification code expired",
-			result: "Verification code expired"
+			result: "Verification code expired",
 		});
 	user.verifyCode = null;
 	user.verifyCodeExpiration = null;
@@ -387,7 +382,7 @@ exports.confirmationUser = async (req, res, next) => {
 	return res.json({
 		type: "success",
 		action: "confirmation user",
-		result: registeredUser.dataValues
+		result: registeredUser.dataValues,
 	});
 };
 
@@ -396,7 +391,7 @@ exports.login = async (req, res, next) => {
 	// find user based on email
 	const user = await User.findOne({
 		where: { emailAddress },
-		include: [{ model: UserRole }]
+		include: [{ model: UserRole }],
 	});
 	// no user found by email address
 	if (!user)
@@ -414,7 +409,7 @@ exports.login = async (req, res, next) => {
 		return res.status(401).json({
 			type: "error",
 			action: "unapproved",
-			result: "User does not have access"
+			result: "User does not have access",
 		});
 	// create token
 	const token = jwt.sign(
@@ -422,7 +417,7 @@ exports.login = async (req, res, next) => {
 			userId: user.id,
 			firstName: user.firstName,
 			lastName: user.lastName,
-			role: user.userRole.dataValues.name
+			role: user.userRole.dataValues.name,
 		},
 		process.env.SECRET
 	);
@@ -437,7 +432,7 @@ exports.login = async (req, res, next) => {
 	// set the jwt header and payload as a cookie on the response
 	res.cookie("token", jwtHeaderAndPayload, {
 		httpOnly: false, // can access in browser with JS
-		maxAge: 1800000 // 30 mins
+		maxAge: 1800000, // 30 mins
 	});
 	// send response - user is authorized
 	return res
@@ -457,13 +452,13 @@ exports.isLoggedIn = (req, res, next) => {
 				return res.status(403).json({
 					type: "error",
 					action: "no session and session user",
-					result: "Token is not valid"
+					result: "Token is not valid",
 				});
 			} else {
 				// update cookie to reset max age for another 30 mins
 				res.cookie("token", tokenHeaderPayload, {
 					httpOnly: false, // can access in browser with JS
-					maxAge: 24 * 60 * 60 * 1000 // 24hrs - The maximum age (in milliseconds) of a valid cookie
+					maxAge: 24 * 60 * 60 * 1000, // 24hrs - The maximum age (in milliseconds) of a valid cookie
 				});
 				// set user on request
 				req.jwtDecoded = decoded;
@@ -471,14 +466,11 @@ exports.isLoggedIn = (req, res, next) => {
 			}
 		});
 	} else {
-		return res
-			.status(403)
-			.clearCookie("token")
-			.json({
-				type: "error",
-				action: "no session and session user",
-				result: "Auth token is not supplied"
-			});
+		return res.status(403).clearCookie("token").json({
+			type: "error",
+			action: "no session and session user",
+			result: "Auth token is not supplied",
+		});
 	}
 };
 
@@ -488,7 +480,7 @@ exports.isAdmin = (req, res, next) => {
 		return res.status(403).json({
 			type: "error",
 			action: "permission error",
-			result: "User does not have permission"
+			result: "User does not have permission",
 		});
 	}
 	next();
@@ -500,7 +492,7 @@ exports.isAdminOrOwner = (req, res, next) => {
 		return res.status(403).json({
 			type: "error",
 			action: "permission error",
-			result: "User does not have permission"
+			result: "User does not have permission",
 		});
 	}
 	next();
@@ -512,7 +504,7 @@ exports.isOwner = (req, res, next) => {
 		return res.status(403).json({
 			type: "error",
 			action: "permission error",
-			result: "User does not have permission"
+			result: "User does not have permission",
 		});
 	}
 	next();
@@ -525,7 +517,7 @@ exports.isSameUserRequested = (req, res, next) => {
 		return res.status(403).json({
 			type: "error",
 			action: "is same user requested",
-			result: "User does not have permission"
+			result: "User does not have permission",
 		});
 	}
 	next();
@@ -539,7 +531,7 @@ exports.logout = (req, res, next) => {
 	return res.clearCookie("token").json({
 		type: "success",
 		action: "logout",
-		result: "You are logged out"
+		result: "You are logged out",
 	});
 };
 
@@ -552,8 +544,8 @@ exports.forgotPasswordSendEmail = async (req, res, next) => {
 			firstName,
 			lastName,
 			emailAddress,
-			propertyId
-		}
+			propertyId,
+		},
 	});
 	// no user found
 	if (!user)
@@ -571,12 +563,12 @@ exports.forgotPasswordSendEmail = async (req, res, next) => {
 		filename: "password-reset",
 		user: user.dataValues,
 		resetUrl: `${process.env.FE_HOST}/forgot-password-reset`,
-		subject: "Zuni Forty Fourth password reset request"
+		subject: "Zuni Forty Fourth password reset request",
 	});
 	return res.json({
 		type: "success",
 		action: "forgot password",
-		result: "A password reset email has been sent"
+		result: "A password reset email has been sent",
 	});
 };
 
@@ -587,14 +579,14 @@ exports.forgotPasswordReset = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "forgot password reset",
-			result: "Passwords do not match"
+			result: "Passwords do not match",
 		});
 	// find user by email
 	const user = await User.findOne({
 		where: {
 			emailAddress,
-			verifyCode
-		}
+			verifyCode,
+		},
 	});
 	// check user exists
 	if (!user)
@@ -606,7 +598,7 @@ exports.forgotPasswordReset = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "verification code expired",
-			result: "Verification code expired"
+			result: "Verification code expired",
 		});
 	// hash new password
 	const passwordHash = await hashPassword(newPassword);
@@ -619,7 +611,7 @@ exports.forgotPasswordReset = async (req, res, next) => {
 	return res.json({
 		type: "success",
 		action: "forgot password reset",
-		result: "Password reset"
+		result: "Password reset",
 	});
 };
 
@@ -633,7 +625,7 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "change password",
-			result: "Please complete all fields"
+			result: "Please complete all fields",
 		});
 	}
 	// check new password matches confirm password
@@ -641,12 +633,12 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "change password",
-			result: "Passwords do not match"
+			result: "Passwords do not match",
 		});
 	}
 	// query db for user
 	const user = await User.findOne({
-		where: { id: userId }
+		where: { id: userId },
 	});
 	// compare provided password with user password
 	const isPasswordMatch = await comparePassword(password, user.password);
@@ -654,7 +646,7 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "change password",
-			result: "Incorrect password"
+			result: "Incorrect password",
 		});
 	}
 	// check new password isn't the same as current password
@@ -663,7 +655,7 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 		return res.status(404).json({
 			type: "error",
 			action: "change password",
-			result: "Please provide a new password"
+			result: "Please provide a new password",
 		});
 	}
 	// hash new password
@@ -673,6 +665,6 @@ exports.changeCurrentUserPassword = async (req, res, next) => {
 	return res.json({
 		type: "success",
 		action: "change password",
-		result: "Password updated"
+		result: "Password updated",
 	});
 };
