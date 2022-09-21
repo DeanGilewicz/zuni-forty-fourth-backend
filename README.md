@@ -190,7 +190,7 @@ Below is a list of the major pieces of the tech stack that were used for this ap
 - [![MySQL][mysql]][mysql-url]
 - [![Sequelize][sequelize]][sequelize-url]
 - [![Pug][pug]][pug-url]
-- [![JSON Web Tokens][jsonwebtokens]][jsonwebtokens-url]
+- [![JWT][jwt]][jwt-url]
 - [![Cloudinary][cloudinary]][cloudinary-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -285,12 +285,12 @@ This application can be deployed anywhere where `NodeJS` can be ran.
 [express]: https://img.shields.io/badge/Express-20232A?style=for-the-badge&logo=express&logoColor=ffffff
 [express-url]: https://expressjs.com/
 [mysql]: https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=ffffff
-[mysql-url]: https://www.mongodb.com/
+[mysql-url]: https://www.mysql.com/
 [sequelize]: https://img.shields.io/badge/Sequelize-3C76C3?style=for-the-badge&logo=sequelize&logoColor=ffffff
-[sequelize-url]: https://mongoosejs.com/
+[sequelize-url]: https://sequelize.org/
 [pug]: https://img.shields.io/badge/Pug-A86454?style=for-the-badge&logo=pug&logoColor=ffffff
 [pug-url]: https://pugjs.org/api/getting-started.html
-[jsonwebtokens]: https://img.shields.io/badge/jsonwebtokens-ffffff?style=for-the-badge&logo=jsonwebtokens&logoColor=000000
-[jsonwebtokens-url]: https://webpack.js.org/
+[jwt]: https://img.shields.io/badge/jwt-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=ffffff
+[jwt-url]: https://jwt.io/
 [cloudinary]: https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge
 [cloudinary-url]: https://cloudinary.com/
