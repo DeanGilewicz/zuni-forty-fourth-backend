@@ -19,14 +19,11 @@ const seedDataUserInterests = seedData.userInterests;
 const seedDataEvents = seedData.events;
 const seedDataCompanies = seedData.companies;
 
-// let dialectOptions = {
-// 	useUTC: false, // for reading from database
-// 	dateStrings: true,
-// 	typeCast: true,
-// };
+let dialectOptions = {};
 
 if (process.env.DB_SSL) {
-	dialectOptions.ssl = process.env.DB_SSL;
+	// needed to connect to PlanetScale DB
+	dialectOptions.ssl = {rejectUnauthorized: true }
 }
 
 const sequelize = new Sequelize(
@@ -38,7 +35,7 @@ const sequelize = new Sequelize(
 		dialect: "mysql",
 		storage: "./session.mysql",
 		operatorsAliases: "0",
-		// dialectOptions: dialectOptions,
+		dialectOptions: dialectOptions,
 		timezone: "-06:00", // for writing to database
 	}
 );
@@ -294,7 +291,7 @@ if (
 				console.log(`Database & tables created!`);
 			})
 			.catch((err) => console.log(err));
-	});
+	}).catch((err) => console.log(err));
 }
 
 module.exports = {
