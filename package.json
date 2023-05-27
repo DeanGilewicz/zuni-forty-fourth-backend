@@ -34,6 +34,7 @@
 	},
 	"main": "app.js",
 	"devDependencies": {
+		"@flydotio/dockerfile": "^0.2.7",
 		"nodemon": "^2.0.15"
 	}
 }
